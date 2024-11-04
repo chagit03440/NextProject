@@ -26,3 +26,22 @@ export const getAllUsers = async (): Promise<User[]> => {
     throw error; 
   }
 };
+
+// Function to get a specific user by ID
+export const getUser = async (userId:number): Promise<User> => {
+  try {
+    const response = await instance.get(`/users/${userId}`);
+    // Map the user data to match the User interface
+    const user: User = {
+      id: response.data.id,
+      firstName: response.data.firstName,
+      lastName: response.data.lastName,
+      email: response.data.email,
+      image: response.data.image,
+    };
+    return user;
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    throw error; 
+  }
+};

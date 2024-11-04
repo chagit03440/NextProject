@@ -8,7 +8,7 @@ interface ButtonLinkProps
 }
 const ButtonLink: React.FC<ButtonLinkProps> = ({text, href}) => {
   return (
-     <Link className='text-blue-400 rounded hover:bg-blue-600' href={href}>
+     <Link className='text-blue-400 rounded' href={href}>
       <button>
         {text}
       </button>

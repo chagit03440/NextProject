@@ -16,6 +16,13 @@ const useUserStore = create<UserState>((set) => ({
       users: state.users.filter((user: User) => user.id !== id),
     })),
 
+    updateUser: (updatedUser: User) =>
+      set((state) => ({
+        users: state.users.map((user: User) =>
+          user.id === updatedUser.id ? updatedUser : user),
+      })),
+  
+
   loadUsers: async () => {
     const users = await getAllUsers();
     set({ users });
@@ -23,6 +30,6 @@ const useUserStore = create<UserState>((set) => ({
 }));
 
 // Load users when the store is initialized
-useUserStore.getState().loadUsers();
+// useUserStore.getState().loadUsers();
 
 export default useUserStore;

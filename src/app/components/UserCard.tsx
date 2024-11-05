@@ -1,9 +1,11 @@
 import React from 'react';
-import User from '../types/user';
 import Image from 'next/image';
 import Link from 'next/link';
+import UserCardProps from '../types/UserCardProps';
 
-const UserCard: React.FC<{ user: User }> = ({ user }) => {
+
+
+const UserCard: React.FC<UserCardProps> = ({ user, showButton = true }) => {
   return (
     <div className="max-w-xs bg-white shadow-lg rounded-lg overflow-hidden">
       <Image
@@ -19,9 +21,13 @@ const UserCard: React.FC<{ user: User }> = ({ user }) => {
         </h2>
         <p className="text-gray-500">{user.email}</p>
       </div>
-      <div className='bg-black w-full flex justify-center items-center py-4'>
-        <Link className='text-white text-center text-lg' href={`/pages/${user.id}`}>Show User</Link>
-      </div>
+      {showButton && ( 
+        <div className='bg-black w-full flex justify-center items-center py-4'>
+          <Link className='text-white text-center text-lg' href={`/pages/${user.id}`}>
+            Show User
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

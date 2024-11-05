@@ -28,7 +28,7 @@ const Page = () => {
   return (
     <div className='mt-20 flex justify-center items-center flex-col'>
       {user ? (
-        <UserCard user={user} />
+        <UserCard user={user} showButton={false} />
       ) : (
         <p>Loading user data...</p>
       )}

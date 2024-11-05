@@ -1,4 +1,5 @@
 import User from '@/app/types/user';
+import PostApi from '@/app/types/PostApi';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -43,5 +44,34 @@ export const getUser = async (userId:number): Promise<User> => {
   } catch (error) {
     console.error('Error fetching user:', error);
     throw error; 
+  }
+};
+
+export const postApi = async (): Promise<PostApi[]> => {
+  try {
+    const response = await fetch('http://localhost:3000/api/apigroup', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error fetching posts: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Access the `posts` array from the response and map it to `PostApi` structure
+    const posts: PostApi[] = data.posts.map((post: PostApi) => ({
+      id: post.id,
+      title: post.title,
+      body: post.body,
+    }));
+
+    return posts;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    throw error; // Re-throw to allow handling in the calling component
   }
 };

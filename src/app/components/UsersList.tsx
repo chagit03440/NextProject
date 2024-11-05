@@ -5,27 +5,25 @@ import useUserStore from '../store/usersListStore';
 import User from '../types/user';
 
 const UsersList = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [image, setImage] = useState('');
+  const [newUser, setNewUser] = useState({ firstName: '', lastName: '', email: '', image: '' }); // State for new user
   const [editingUserId, setEditingUserId] = useState<number | null>(null); // Track which user is being edited
+  const [editedUser, setEditedUser] = useState({ firstName: '', lastName: '', email: '' }); // State for edited user
   const users = useUserStore((state) => state.users);
   const addUser = useUserStore((state) => state.addUser);
   const deleteUser = useUserStore((state) => state.deleteUser);
   const updateUser = useUserStore((state) => state.updateUser);
 
   const handleAddUser = () => {
-    if (firstName && lastName && email && image) {
-      const newUser: User = {
+    if (newUser.firstName && newUser.lastName && newUser.email && newUser.image) {
+      const userToAdd: User = {
         id: Date.now(),
-        firstName,
-        lastName,
-        email,
-        image,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        email: newUser.email,
+        image: newUser.image,
       };
-      addUser(newUser);
-      resetForm();
+      addUser(userToAdd);
+      resetAddUserForm();
     }
   };
 
@@ -34,26 +32,25 @@ const UsersList = () => {
       // If the same user is clicked, save the changes
       const updatedUser: User = {
         ...user,
-        firstName,
-        lastName,
-        email,
+        firstName: editedUser.firstName,
+        lastName: editedUser.lastName,
+        email: editedUser.email,
       };
       updateUser(updatedUser);
       setEditingUserId(null); // Exit editing mode
     } else {
       // Enter editing mode
       setEditingUserId(user.id);
-      setFirstName(user.firstName);
-      setLastName(user.lastName);
-      setEmail(user.email);
+      setEditedUser({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      });
     }
   };
 
-  const resetForm = () => {
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setImage('');
+  const resetAddUserForm = () => {
+    setNewUser({ firstName: '', lastName: '', email: '', image: '' });
   };
 
   return (
@@ -63,29 +60,29 @@ const UsersList = () => {
         <div className="flex flex-col gap-4 max-w-xs">
           <input
             type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={newUser.firstName}
+            onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
             placeholder="First Name"
             className="border border-gray-300 rounded-md p-2"
           />
           <input
             type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            value={newUser.lastName}
+            onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
             placeholder="Last Name"
             className="border border-gray-300 rounded-md p-2"
           />
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={newUser.email}
+            onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
             placeholder="Email"
             className="border border-gray-300 rounded-md p-2"
           />
           <input
             type="text"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
+            value={newUser.image}
+            onChange={(e) => setNewUser({ ...newUser, image: e.target.value })}
             placeholder="Image URL"
             className="border border-gray-300 rounded-md p-2"
           />
@@ -106,20 +103,20 @@ const UsersList = () => {
                   <>
                     <input
                       type="text"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
+                      value={editedUser.firstName}
+                      onChange={(e) => setEditedUser({ ...editedUser, firstName: e.target.value })}
                       className="border border-gray-300 rounded-md p-1"
                     />
                     <input
                       type="text"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
+                      value={editedUser.lastName}
+                      onChange={(e) => setEditedUser({ ...editedUser, lastName: e.target.value })}
                       className="border border-gray-300 rounded-md p-1"
                     />
                     <input
                       type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={editedUser.email}
+                      onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
                       className="border border-gray-300 rounded-md p-1"
                     />
                   </>
@@ -131,7 +128,7 @@ const UsersList = () => {
                 )}
               </div>
               <button
-                onClick={() => (handleEditUser(user))}
+                onClick={() => handleEditUser(user)}
                 className={`ml-auto ${editingUserId === user.id ? 'bg-blue-500' : 'bg-yellow-500'} text-white p-2 rounded-md hover:bg-opacity-80`}
               >
                 {editingUserId === user.id ? 'Save' : 'Edit'}

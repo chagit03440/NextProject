@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <div>
+      <div className="">
         <NavBar/>
         <div className="mt-16"></div>
         {children}

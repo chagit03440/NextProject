@@ -20,7 +20,7 @@ const UserCard: React.FC<{ user: User }> = ({ user }) => {
         <p className="text-gray-500">{user.email}</p>
       </div>
       <div className='bg-black w-full flex justify-center items-center py-4'>
-        <Link className='text-white text-center text-lg' href={`/pages/${user.id}`}>Click Me</Link>
+        <Link className='text-white text-center text-lg' href={`/pages/${user.id}`}>Show User</Link>
       </div>
     </div>
   );

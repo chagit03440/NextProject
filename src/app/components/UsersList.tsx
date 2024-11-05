@@ -56,7 +56,7 @@ const UsersList = () => {
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-2xl font-bold mt-16 mb-6">Users List</h1>
-      <div className="flex gap-8 items-start w-full max-w-4xl">
+      <div className="flex flex-col sm:flex-row gap-8 items-start w-full max-w-4xl">
         <div className="flex flex-col gap-4 max-w-xs">
           <input
             type="text"
@@ -96,9 +96,9 @@ const UsersList = () => {
 
         <ul className="flex-1 space-y-4">
           {users.map((user: User) => (
-            <li key={user.id} className="flex items-center gap-4 p-4 border border-gray-300 rounded-md">
+            <li key={user.id} className="flex flex-col sm:flex-row items-center gap-4 p-4 border border-gray-300 rounded-md">
               <Image src={user.image} alt={`${user.firstName} ${user.lastName}`} width={50} height={50} className="rounded-full" />
-              <div className="flex flex-col">
+              <div className="flex flex-col ">
                 {editingUserId === user.id ? (
                   <>
                     <input

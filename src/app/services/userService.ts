@@ -1,6 +1,7 @@
-import User from '@/app/types/user';
+import User from '../types/user';
 import PostApi from '@/app/types/PostApi';
 import axios from 'axios';
+
 
 const instance = axios.create({
   baseURL: 'https://dummyjson.com',
@@ -75,3 +76,26 @@ export const postApi = async (): Promise<PostApi[]> => {
     throw error; // Re-throw to allow handling in the calling component
   }
 };
+
+export const createUser = async (user: { username: string; email: string; password: string }) => {
+  try {
+    const response = await fetch('/api/mongoRoute', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error creating user`);
+    }
+
+    const data = await response.json();
+    console.log('User Created:', data);
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error; 
+  }
+};
+
